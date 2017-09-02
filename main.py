@@ -3,19 +3,23 @@ from PIL import ImageFilter, ImageDraw, ImageFont, Image
 from argparse import ArgumentParser
 
 def main(title, subtitle, outfile, radius):
+    font = ImageFont.truetype("/usr/share/fonts/TTF/DejaVuSansCondensed-Bold.ttf", 72)
+    font2 = ImageFont.truetype("/usr/share/fonts/TTF/DejaVuSansCondensed-Bold.ttf", 36)
+
     with mss() as sct:
         # grab screenshot from monitor 0
         sct_img = sct.grab(sct.monitors[0])
     im = Image.frombytes('RGB', sct_img.size, sct_img.rgb)
     
+    draw = ImageDraw.Draw(im, 'RGB')
+    draw.rectangle([0, 300, sct_img.size[0], 430], (0, 0, 0, 127), (0, 0, 0, 127))
+    draw.text((20, 300), title, (255, 255, 255), font=font)
+    draw.text((25, 372), subtitle, (255, 255, 255), font=font2)
     img1 = im.filter(ImageFilter.GaussianBlur(radius=radius))
     
     draw = ImageDraw.Draw(img1, 'RGB')
-    font = ImageFont.truetype("/usr/share/fonts/TTF/DejaVuSansCondensed-Bold.ttf", 72)
-    font2 = ImageFont.truetype("/usr/share/fonts/TTF/DejaVuSansCondensed-Bold.ttf", 36)
-    draw.rectangle([0, 300, 1920, 430], (0, 0, 0, 127), (0, 0, 0, 127))
-    draw.text((0, 300), title, (255, 255, 255), font=font)
-    draw.text((0, 372), subtitle, (255, 255, 255), font=font2)
+    draw.text((20, 300), title, (255, 255, 255), font=font)
+    draw.text((25, 372), subtitle, (255, 255, 255), font=font2)
     img1.save(outfile)
 
 
