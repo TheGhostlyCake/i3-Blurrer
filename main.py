@@ -18,7 +18,6 @@ def main(title, subtitle, outfile, radius):
     draw.text((0, 372), subtitle, (255, 255, 255), font=font2)
     img1.save(outfile)
 
-
 if __name__ == "__main__":
     parser = ArgumentParser(description='Generate an overlaid blurred image of desktop with text on it')
     parser.add_argument('title', help='title text')
@@ -27,3 +26,4 @@ if __name__ == "__main__":
     parser.add_argument('--radius', type=int, help='gaussian blur radius', default=5)
     args = parser.parse_args()
     main(args.title, args.subtitle, args.outfile, args.radius)
+=
